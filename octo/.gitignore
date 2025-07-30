@@ -1,6 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# .gitignore for Octo Project
+# For more information on gitignore patterns, see:
+# https://help.github.com/articles/ignoring-files/
 
-# dependencies
+# Dependency directories
 /node_modules
 /.pnp
 .pnp.*
@@ -10,32 +12,32 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# Test coverage output
 /coverage
 
-# next.js
+# Next.js build output
 /.next/
 /out/
 
-# production
+# Production build output
 /build
 
-# misc
+# Miscellaneous system files
 .DS_Store
 *.pem
 
-# debug
+# Debug log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# Environment variable files
 .env*
 
-# vercel
+# Vercel deployment directory
 .vercel
 
-# typescript
+# TypeScript build artifacts
 *.tsbuildinfo
 next-env.d.ts
