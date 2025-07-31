@@ -59,7 +59,7 @@ const Signup = () => {
       email: values.email,
       password: values.password,
       name: values.name,
-      callbackURL: "/dashboard?via=signup",
+      callbackURL: "/dashboard/calendar?via=signup",
     });
     const error = await authClient.signUp.email(
       {
@@ -108,7 +108,7 @@ const Signup = () => {
             <Button
               type="button"
               variant="outline"
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-transparent via-black/50 hover:via-black to-transparent text-white border-0 rounded-none shadow-none hover:text-white transition-colors duration-300"
+              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-transparent via-emerald-600/50 hover:via-emerald-600 to-transparent text-white border-0 rounded-none shadow-none hover:text-white transition-colors duration-300"
               disabled={loading}
               onClick={async () => {
                 toast.info("Feature Coming Soon");
@@ -131,7 +131,7 @@ const Signup = () => {
             <Button
               type="button"
               variant="outline"
-              className="w-full flex items-center justify-center gap-2 bg-white text-black border-0 shadow-none hover:bg-black/5 transition-colors duration-300 rounded-4xl"
+              className="w-full flex items-center justify-center gap-2 bg-white text-emerald-600 border-0 shadow-none hover:bg-emerald-600/10 transition-colors duration-300 rounded-4xl"
               disabled={loading}
               onClick={async () => {
                 toast.info("Feature Coming Soon");
@@ -167,7 +167,7 @@ const Signup = () => {
         </div>
 
         {/* Form Bottom (on mobile) / Left (on md+) */}
-        <main className="flex flex-col justify-center items-center p-6 md:p-10 w-full md:w-1/2 bg-black text-white">
+        <main className="flex flex-col justify-center items-center p-6 md:p-10 w-full md:w-1/2 bg-emerald-600 text-white">
           <CardContent className="w-full p-0">
             <Form {...form}>
               <form
@@ -198,13 +198,11 @@ const Signup = () => {
                             placeholder="Your Name"
                             required
                             autoComplete="name"
-                            className={cn(
-                              "w-full px-4 py-2 border-black bg-black text-white rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition placeholder-gray-400 border-0"
-                            )}
+                            className="w-full px-4 py-2 bg-white/20 text-white rounded-2xl focus-visible:outline-none focus-visible:ring-0 transition placeholder:text-gray-200 border-0"
                             aria-invalid={!!errors.name}
                           />
                         </FormControl>
-                        <FormMessage>
+                        <FormMessage className="text-amber-300">
                           {errors.name && (
                             <span className="text-red-400 text-xs">
                               {errors.name.message}
@@ -235,13 +233,11 @@ const Signup = () => {
                             placeholder="you@example.com"
                             required
                             autoComplete="email"
-                            className={cn(
-                              "w-full px-4 py-2 border-black bg-black text-white rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition placeholder-gray-400 border-0"
-                            )}
+                            className="w-full px-4 py-2 bg-white/20 text-white rounded-2xl focus-visible:outline-none focus-visible:ring-0 transition placeholder:text-gray-200 border-0"
                             aria-invalid={!!errors.email}
                           />
                         </FormControl>
-                        <FormMessage>
+                        <FormMessage className="text-amber-300">
                           {errors.email && (
                             <span className="text-red-400 text-xs">
                               {errors.email.message}
@@ -274,10 +270,7 @@ const Signup = () => {
                             placeholder="••••••••"
                             required
                             autoComplete="new-password"
-                            className={cn(
-                              "w-full px-4 py-2 border border-black bg-black text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-400 transition placeholder-gray-400 text-sm md:text-base",
-                              errors.password && "border-red-500"
-                            )}
+                            className="w-full px-4 py-2 bg-white/20 text-white rounded-2xl focus-visible:outline-none focus-visible:ring-0 transition placeholder:text-gray-200 border-0"
                             aria-invalid={!!errors.password}
                           />
                           <Button
@@ -293,7 +286,7 @@ const Signup = () => {
                           </Button>
                         </div>
                       </FormControl>
-                      <FormMessage>
+                      <FormMessage className="text-amber-300">
                         {errors.password && (
                           <span className="text-red-400 text-xs">
                             {errors.password.message}
@@ -307,7 +300,7 @@ const Signup = () => {
                 <div className="flex gap-2 mt-2">
                   <Button
                     type="submit"
-                    className="w-1/2 rounded-2xl bg-emerald-500 text-white hover:bg-emerald-600 border-none text-sm md:text-base"
+                    className="w-1/2 rounded-2xl bg-white hover:bg-white text-emerald-600 border-none"
                     disabled={loading}
                   >
                     {loading ? "Signing up..." : "Sign Up"}
@@ -315,11 +308,13 @@ const Signup = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-1/2 text-emerald-400 bg-transparent border-0 hover:bg-emerald-500/40 hover:text-white -ml-6 rounded-l-none rounded-r-3xl text-sm md:text-base"
+                    className="w-1/2 text-white bg-white/30 border-0 hover:bg-white/65 hover:text-emerald-700 -ml-6 rounded-l-none rounded-r-3xl shadow-none"
                     disabled={loading}
-                    onClick={() => redirect("/signin")}
+                    onClick={() => {
+                      redirect("/signin");
+                    }}
                   >
-                    Login
+                    Sign In
                   </Button>
                 </div>
               </form>

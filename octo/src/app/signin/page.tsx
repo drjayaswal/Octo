@@ -57,7 +57,7 @@ const Signin = () => {
       {
         email: values.email,
         password: values.password,
-        callbackURL: "/dashboard?via=signin",
+        callbackURL: "/dashboard/calendar?via=signin",
       },
       {
         onSuccess: () => {
@@ -99,7 +99,7 @@ const Signin = () => {
             <Button
               type="button"
               variant="outline"
-              className="w-full flex items-center justify-center gap-2 bg-white text-black border-0 shadow-none hover:bg-black/5 transition-colors duration-300 rounded-4xl"
+              className="w-full flex items-center justify-center gap-2 bg-white text-black hover:text-emerald-600 border-0 shadow-none hover:bg-emerald-600/10 transition-colors duration-300 rounded-4xl"
               disabled={loading}
               onClick={async () => {
                 toast.info("Feature Coming Soon");
@@ -135,7 +135,7 @@ const Signin = () => {
         </div>
 
         {/* Form Bottom (on mobile) / Right (on md+) */}
-        <main className="flex flex-col justify-center items-center p-8 w-full md:w-1/2 bg-black text-white">
+        <main className="flex flex-col justify-center items-center p-8 w-full md:w-1/2 bg-emerald-600 text-white">
           <CardContent className="w-full p-0">
             <Form {...form}>
               <form
@@ -165,13 +165,11 @@ const Signin = () => {
                           placeholder="you@example.com"
                           required
                           autoComplete="email"
-                          className={cn(
-                            "w-full px-4 py-2 border-black bg-black text-white rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition placeholder-gray-400 border-0"
-                          )}
+                          className="w-full px-4 py-2 bg-white/20 text-white rounded-2xl focus-visible:outline-none focus-visible:ring-0 transition placeholder:text-gray-200 border-0"
                           aria-invalid={!!errors.email}
                         />
                       </FormControl>
-                      <FormMessage>
+                      <FormMessage className="text-amber-300">
                         {errors.email && (
                           <span className="text-red-400 text-xs">
                             {errors.email.message}
@@ -204,15 +202,13 @@ const Signin = () => {
                             placeholder="••••••••"
                             required
                             autoComplete="current-password"
-                            className={cn(
-                              "w-full px-4 py-2 border-black bg-black text-white rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition placeholder-gray-400 border-0 pr-12"
-                            )}
+                            className="w-full px-4 py-2 bg-white/20 text-white rounded-2xl focus-visible:outline-none focus-visible:ring-0 transition placeholder:text-gray-200 border-0"
                             aria-invalid={!!errors.password}
                           />
                           <Button
                             type="button"
                             tabIndex={-1}
-                            className="absolute inset-y-0 right-2 flex items-center px-2 text-gray-400 hover:text-emerald-500 cursor-pointer focus:outline-none hover:bg-transparent bg-transparent"
+                            className="absolute inset-y-0 right-2 flex items-center px-2 text-white hover:text-black cursor-pointer focus:outline-none hover:bg-transparent bg-transparent shadow-none"
                             onClick={() => setShowPassword((prev) => !prev)}
                             aria-label={
                               showPassword ? "Hide password" : "Show password"
@@ -222,7 +218,7 @@ const Signin = () => {
                           </Button>
                         </div>
                       </FormControl>
-                      <FormMessage>
+                      <FormMessage className="text-amber-300">
                         {errors.password && (
                           <span className="text-red-400 text-xs">
                             {errors.password.message}
@@ -236,15 +232,15 @@ const Signin = () => {
                 <div className="flex gap-2 mt-2">
                   <Button
                     type="submit"
-                    className="w-1/2 rounded-2xl bg-emerald-500 text-white hover:bg-emerald-600 border-none"
+                    className="w-1/2 rounded-2xl bg-white hover:bg-white text-emerald-600 border-none"
                     disabled={loading}
                   >
-                    {loading ? "Logging in..." : "Login"}
+                    {loading ? "Signing in..." : "Sign In"}
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-1/2 text-emerald-400 bg-transparent border-0 hover:bg-emerald-500/40 hover:text-white -ml-6 rounded-l-none rounded-r-3xl"
+                    className="w-1/2 text-white bg-white/30 border-0 hover:bg-white/65 hover:text-emerald-700 -ml-6 rounded-l-none rounded-r-3xl shadow-none"
                     disabled={loading}
                     onClick={() => {
                       redirect("/signup");
