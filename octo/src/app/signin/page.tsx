@@ -15,7 +15,6 @@ import {
   FormMessage,
   Form,
 } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
 import { Eye, EyeOff } from "lucide-react";
 
 import { z } from "zod";
@@ -32,10 +31,9 @@ const signinSchema = z.object({
 type SignmermValues = z.infer<typeof signinSchema>;
 
 const Signin = () => {
-  const { data: session, isPending } = authClient.useSession();
+  const { data: _session, isPending } = authClient.useSession();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const form = useForm<SignmermValues>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -75,9 +73,9 @@ const Signin = () => {
     return <Loading />;
   }
 
-  if (session) {
-    redirect("/me");
-  }
+  //   if (session) {
+  //     redirect("/me");
+  //   }
 
   return (
     <div className="min-h-screen flex items-center justify-center font-[var(--font-geist-sans)] px-4">
@@ -240,7 +238,11 @@ const Signin = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-1/2 text-white bg-white/30 border-0 hover:bg-white/65 hover:text-emerald-700 -ml-6 rounded-l-none rounded-r-3xl shadow-none"
+                    className={`w-1/2 text-white bg-white/30 border-0 -ml-6 rounded-l-none rounded-r-3xl shadow-none hover:text-emerald-700 ${
+                      loading
+                        ? "bg-transparent"
+                        : "hover:bg-white/65"
+                    }`}
                     disabled={loading}
                     onClick={() => {
                       redirect("/signup");

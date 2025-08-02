@@ -1,9 +1,21 @@
-"use client";
+"use client"
+import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 import type React from "react";
 import { toast } from "sonner";
 
 const Pricing = () => {
+  const { data: session, isPending } = authClient.useSession();
+
+  if (isPending) {
+    return <Loading />;
+  }
+  if (!session) {
+    redirect("/signin");
+  }
+
   return (
     <section className="relative min-h-full bg-white flex items-center justify-center py-8 sm:py-12 lg:py-16">
       <div className="container mx-auto px-4 max-w-7xl">

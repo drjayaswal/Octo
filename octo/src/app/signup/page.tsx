@@ -308,7 +308,9 @@ const Signup = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-1/2 text-white bg-white/30 border-0 hover:bg-white/65 hover:text-emerald-700 -ml-6 rounded-l-none rounded-r-3xl shadow-none"
+                    className={`w-1/2 text-white bg-white/30 border-0 -ml-6 rounded-l-none rounded-r-3xl shadow-none hover:text-emerald-700 ${
+                      loading ? "bg-transparent" : "hover:bg-white/65"
+                    }`}
                     disabled={loading}
                     onClick={() => {
                       redirect("/signin");
