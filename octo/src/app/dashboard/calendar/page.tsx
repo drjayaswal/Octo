@@ -1,24 +1,19 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  ChevronLeft,
-  ChevronRight,
-  CalendarIcon,
-  Users2Icon,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { dayNames, monthNames } from "@/lib/const";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import Loading from "@/components/loading";
+import { authClient } from "@/lib/auth-client";
 
-// Types for meetings calendar
 type Meeting = {
   id: string;
   title: string;
-  time: string; // e.g. "10:00 AM"
+  time: string;
   participants: string[];
 };
 
@@ -29,7 +24,9 @@ type DayData = {
   isCurrentMonth: boolean;
 };
 
-export default function MeetingsCalendarPage() {
+export default function CalendarPage() {
+  const { data: session, isPending } = authClient.useSession();
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<DayData | null>(null);
   const [showDayDialog, setShowDayDialog] = useState(false);
@@ -48,6 +45,13 @@ export default function MeetingsCalendarPage() {
       window.history.replaceState({}, "", url.pathname + url.search);
     }
   }, [searchParams]);
+
+  if (isPending) {
+    return <Loading />;
+  }
+  if (!session) {
+    redirect("/signin");
+  }
 
   // Dummy meetings for demonstration
   const getMeetingsForDate = (date: Date): Meeting[] => {
@@ -168,9 +172,8 @@ export default function MeetingsCalendarPage() {
   const days = getDaysInMonth(currentDate);
 
   return (
-    <div className="flex flex-col h-full bg-white min-h-full">
-      <div className="border-b border-emerald-600 p-4 sm:py-6 py-7" />
-      <div className="flex items-center justify-center mt-3 sm:mt-5">
+    <div className="flex flex-col h-full bg-gray-50 min-h-full">
+      <div className="flex items-center justify-center">
         <div className="flex items-center gap-2 sm:gap-4">
           <Button
             className="bg-emerald-700/10 text-emerald-700 hover:bg-emerald-700/20 hover:text-emerald-700 cursor-pointer"
@@ -211,8 +214,8 @@ export default function MeetingsCalendarPage() {
           <div
             className="grid grid-cols-7 gap-0.5 sm:gap-1"
             style={{
-              gridAutoRows: "1fr", // Ensures all rows are equal height
-              height: "100%", // Take up all available height
+              gridAutoRows: "1fr",
+              height: "100%",
               minHeight: 0,
             }}
           >
@@ -220,13 +223,12 @@ export default function MeetingsCalendarPage() {
               <Card
                 key={index}
                 className={cn(
-                  // Make the card perfectly square and responsive, but a little smaller on large screens
                   "aspect-square sm:aspect-video min-h-0 h-full w-full p-1 sm:p-2 lg:p-3 cursor-pointer transition-all shadow-xs border-transparent border-2 duration-200 flex flex-col",
                   dayData.isCurrentMonth ? "bg-white hover:shadow-md" : "-z-10",
-                  dayData.isToday &&
-                    "border-transparent bg-emerald-500/50 shadow-xl hover:shadow-xl",
                   dayData.meetings.length > 0 &&
-                    "border-transparent hover:shadow-none shadow-none bg-emerald-500/10"
+                    "border-transparent hover:shadow-xl shadow-none bg-emerald-500/10",
+                  dayData.isToday &&
+                    "border-transparent bg-emerald-500/20 hover:shadow-xl"
                 )}
                 onClick={() => handleDayClick(dayData)}
               >

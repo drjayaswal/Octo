@@ -2,8 +2,17 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const Loading = () => {
+  // Prevent scrolling on loading screen
+  React.useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center font-[family-name:var(--font-geist-sans)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white font-[family-name:var(--font-geist-sans)]">
       <div className="flex flex-col items-center gap-4">
         <div className="relative w-20 h-20 flex bg-white rounded-full items-center justify-center">
           {/* Elegant spinner ring */}

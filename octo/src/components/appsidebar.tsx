@@ -13,8 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-
+import { redirect, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -50,6 +49,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 const navigationData = {
   user: {
@@ -106,29 +106,10 @@ const dropdownItem = [
 ];
 export function AppSidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-  const handleLogOut = async () => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/auth/logout`, {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await res.json();
-      if (res.ok) {
-        toast("You have successfully logged out!");
-        router.push("/");
-      } else {
-        toast("Logout failed!");
-        console.error("Logout failed:", data);
-      }
-    } catch (err) {
-      console.error("Logout error:", err);
-    }
-  };
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>
-        <SidebarMenu className="p-2">
+        <SidebarMenu className="p-[2px]">
           <div className="flex justify-center items-center w-full">
             <SidebarMenuItem>
               <SidebarMenuButton
@@ -304,8 +285,14 @@ export function AppSidebar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer focus:bg-red-500/5 focus:text-red-600 rounded-b-lg rounded-t-none"
-                  onClick={() => {
-                    handleLogOut();
+                  onClick={async () => {
+                    const a = toast.loading("Logging Out");
+                    await authClient.signOut();
+                    setTimeout(() => {
+                      toast.dismiss(a);
+                      toast.success("Logged Out")
+                      redirect("/signin");
+                    }, 2000);
                   }}
                 >
                   <LogOut className="group-hover:text-red-600" /> Log out
